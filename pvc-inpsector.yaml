@@ -11,6 +11,7 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: data
+          subPath: minecraft
   volumes:
     - name: data
       persistentVolumeClaim:
