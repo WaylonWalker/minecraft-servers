@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pvc-inspector
-  namespace: superflat
+  namespace: minecraft
 spec:
   containers:
     - image: busybox
@@ -11,7 +11,7 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: data
-          subPath: minecraft
+          # subPath: minecraft
   volumes:
     - name: data
       persistentVolumeClaim:
