@@ -1,8 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: superflat
-  namespace: minecraft
+  name: minecraft
 
 ---
 apiVersion: v1
