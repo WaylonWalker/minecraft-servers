@@ -12,7 +12,7 @@ spec:
           image: busybox
           command: ["sh", "-c", "while true; do date >> /logs/runs.log; sleep 60; done"]
           volumeMounts:
-            - name: logs-volume
+            - name: data
               mountPath: /logs
               subPath: logs
       restartPolicy: Never
