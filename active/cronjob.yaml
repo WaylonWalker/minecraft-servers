@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: timestamp-job
+spec:
+  template:
+    metadata:
+      name: timestamp-job
+    spec:
+      containers:
+        - name: timestamp-container
+          image: busybox
+          command: ["sh", "-c", "while true; do date >> /logs/runs.log; sleep 60; done"]
+          volumeMounts:
+            - name: logs-volume
+              mountPath: /logs
+              subPath: logs
+      restartPolicy: Never
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
