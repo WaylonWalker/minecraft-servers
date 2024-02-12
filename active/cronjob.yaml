@@ -1,22 +1,27 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
-  name: timestamp-job
+  name: timestamp-cronjob
 spec:
-  template:
-    metadata:
-      name: timestamp-job
+  schedule: "*/1 * * * *"
+  jobTemplate:
     spec:
-      containers:
-        - name: timestamp-container
-          image: busybox
-          command: ["sh", "-c", "while true; do date >> /logs/runs.log; sleep 60; done"]
-          volumeMounts:
-            - name: data
-              mountPath: /logs
-              subPath: logs
-      restartPolicy: Never
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: data
+      template:
+        metadata:
+          labels:
+            app: timestamp-job
+        spec:
+          containers:
+            - name: timestamp-container
+              image: busybox
+              command: ["sh", "-c", "date >> /logs/runs.log"]
+              volumeMounts:
+                - name: logs-volume
+                  mountPath: /logs
+                  subPath: logs
+          restartPolicy: OnFailure
+          volumes:
+            - name: logs-volume
+              persistentVolumeClaim:
+                claimName: data
+                subPath: logs
