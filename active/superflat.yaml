@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: superflat
-  namespace: superflat
+  namespace: minecraft
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: superflat
-  namespace: superflat
+  namespace: minecraft
 spec:
   selector:
     app: superflat
@@ -24,7 +24,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: superflat
-  namespace: superflat
+  namespace: minecraft
 spec:
   replicas: 1
   selector:
@@ -61,23 +61,9 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
+              subPath: superflat
       restartPolicy: Always
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: data
-  namespace: superflat
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
-    limits:
-      storage: 4Gi
