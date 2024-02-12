@@ -8,11 +8,11 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mc
+  name: superflat
   namespace: superflat
 spec:
   selector:
-    app: mc
+    app: superflat
   ports:
     - name: "35565"
       port: 35565
@@ -23,19 +23,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mc
+  name: superflat
   namespace: superflat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mc
+      app: superflat
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mc
+        app: superflat
     spec:
       containers:
         - env:
@@ -50,7 +50,7 @@ spec:
             - name: VERSION
               value: 1.20.4
           image: itzg/minecraft-server
-          name: mc
+          name: superflat
           ports:
             - containerPort: 25565
               hostPort: 35565
