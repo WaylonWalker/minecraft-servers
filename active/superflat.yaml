@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: superflat
+  namespace: superflat
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mc
+  namespace: superflat
+spec:
+  selector:
+    app: mc
+  ports:
+    - name: "35565"
+      port: 35565
+      targetPort: 25565
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mc
+  namespace: superflat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mc
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mc
+    spec:
+      containers:
+        - env:
+            - name: EULA
+              value: "true"
+            - name: LEVEL_TYPE
+              value: FLAT
+            - name: RCON_CMDS_STARTUP
+              value: |-
+                gamerule keepInventory true
+                pregen start 200
+            - name: VERSION
+              value: 1.20.4
+          image: itzg/minecraft-server
+          name: mc
+          ports:
+            - containerPort: 25565
+              hostPort: 35565
+              protocol: TCP
+          resources: {}
+          stdin: true
+          tty: true
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data
+  namespace: superflat
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+    limits:
+      storage: 4Gi
