@@ -18,7 +18,6 @@ spec:
               volumeMounts:
                 - name: logs-volume
                   mountPath: /logs
-                  subPath: logs
           restartPolicy: OnFailure
           volumes:
             - name: logs-volume
