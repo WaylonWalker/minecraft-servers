@@ -14,7 +14,7 @@ spec:
           containers:
             - name: weather-container
               image: curlimages/curl
-              command: ["sh", "-c", "curl 'wttr.in/peoria,il?format=3' >> /logs/weather.log"]
+              command: ["sh", "-c", "curl 'wttr.in/peoria,il?format=3' >> /logs/wttr.log"]
               volumeMounts:
                 - name: logs-volume
                   mountPath: /logs
