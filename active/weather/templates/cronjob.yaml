@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-weather-cronjob
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: weather-job
+        spec:
+          containers:
+            - name: weather-container
+              image: {{ .Values.container.image }}
+              command: ["sh", "-c", "{{ .Values.container.command }}"]
+              volumeMounts:
+                - name: logs-volume
+                  mountPath: /logs
+                  subPath: logs
+          restartPolicy: {{ .Values.restartPolicy }}
+          volumes:
+            - name: logs-volume
+              persistentVolumeClaim:
+                claimName: {{ .Values.volume.claimName }}
+                subPath: logs

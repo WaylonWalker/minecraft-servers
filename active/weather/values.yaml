@@ -1,0 +1,10 @@
+schedule: "*/1 * * * *"
+
+container:
+  image: busybox
+  command: "curl 'wttr.in/peoria,il?format=3' >> /logs/weather.log"
+
+restartPolicy: OnFailure
+
+volume:
+  claimName: data

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: weather-cronjob-chart
+description: A Helm chart for deploying a cron job to fetch weather information
+version: 0.1.0
