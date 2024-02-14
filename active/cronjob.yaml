@@ -23,4 +23,3 @@ spec:
             - name: logs-volume
               persistentVolumeClaim:
                 claimName: data
-                subPath: logs
