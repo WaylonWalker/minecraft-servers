@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: weather-container
-              image: busybox
+              image: curlimages/curl
               command: ["sh", "-c", "curl 'wttr.in/peoria,il?format=3' >> /logs/weather.log"]
               volumeMounts:
                 - name: logs-volume
